@@ -3,9 +3,11 @@ from src.product import Product
 
 class Category:
     """класс Категория"""
+
     category_count = 0
     product_count = 0
-    def __init__(self, name:str, descriptions:str, products: list[Product]):
+
+    def __init__(self, name: str, descriptions: str, products: list[Product]):
         self.name = name
         self.description = descriptions
         self.products = products
