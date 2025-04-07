@@ -11,9 +11,11 @@ def load_products() -> None:
             products = []
             for prod in cat["products"]:
                 products.append(Product(prod["name"], prod["description"], prod["price"], prod["quantity"]))
-            Category(cat["name"], cat["description"], products)
+            c = Category(cat["name"], cat["description"], products)
+            print(c.products)
     print(Category.category_count)
     print(Category.product_count)
+    print(Product.new_product({"name": "aaaa", "description": "zzz", "price": 5, "quantity": 10}))
 
 
 load_products()
