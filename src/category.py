@@ -16,9 +16,12 @@ class Category:
         Category.product_count += self.product_count
 
     def add_product(self, product: Product) -> None:
-        self.__products.append(product)
-        self.product_count += 1
+        if isinstance(product, Product):
+            self.__products.append(product)
+            self.product_count += 1
 
     @property
     def products(self) -> list:
         return list(map(lambda x: f"{x.name}, {x.price} руб. Остаток {x.quantity} шт.", self.__products))
+
+
