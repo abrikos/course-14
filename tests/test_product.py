@@ -16,6 +16,19 @@ def product_2() -> Product:
     return Product.new_product({"name": "a", "description": "b", "price": 1, "quantity": 2})
 
 
+@pytest.fixture
+def product_3() -> Product:
+    return Product.new_product({"name": "aaaa", "description": "bbbbb", "price": 10, "quantity": 20})
+
+
+def test_str(product_1: Product) -> None:
+    assert str(product_1) == "a, 1 руб. Остаток: 2 шт."
+
+
+def test_add(product_1: Product, product_3: Product) -> None:
+    assert product_1 + product_3 == 1 * 2 + 10 * 20
+
+
 def test_init(product_1: Product) -> None:
     assert product_1.name == "a"
     assert product_1.description == "b"

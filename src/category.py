@@ -23,5 +23,3 @@ class Category:
     @property
     def products(self) -> list:
         return list(map(lambda x: f"{x.name}, {x.price} руб. Остаток {x.quantity} шт.", self.__products))
-
-
