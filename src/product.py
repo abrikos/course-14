@@ -1,8 +1,14 @@
-from typing import Self
+from typing import Any, Self
 
 
 class Product:
     """класс Товар"""
+
+    def __str__(self) -> str:
+        return f"{self.name}, {self.price} руб. Остаток: {self.quantity} шт."
+
+    def __add__(self, other) -> Any:
+        return self.quantity * self.price + other.quantity * other.price
 
     def __init__(self, name: str, description: str, price: float, quantity: int):
         self.name = name

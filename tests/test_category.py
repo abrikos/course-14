@@ -33,3 +33,6 @@ def test_cat_2(category_2: Category) -> None:
     assert category_2.description == "b"
     assert category_2.category_count == 2
     assert category_2.product_count == 2
+
+def test_cat_props(category_2:Category)->None:
+    assert category_2.products == ['a, 1 руб. Остаток 2 шт.', 'a1, 1 руб. Остаток 2 шт.']
