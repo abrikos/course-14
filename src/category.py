@@ -7,6 +7,9 @@ class Category:
     category_count = 0
     product_count = 0
 
+    def __str__(self) -> str:
+        return f"{self.name}, количество продуктов: {len(self.products)} шт."
+
     def __init__(self, name: str, descriptions: str, products: list[Product]):
         self.name = name
         self.description = descriptions
@@ -23,5 +26,3 @@ class Category:
     @property
     def products(self) -> list:
         return list(map(lambda x: f"{x.name}, {x.price} руб. Остаток {x.quantity} шт.", self.__products))
-
-
