@@ -7,8 +7,11 @@ class Product:
     def __str__(self) -> str:
         return f"{self.name}, {self.price} руб. Остаток: {self.quantity} шт."
 
-    def __add__(self, other) -> Any:
-        return self.quantity * self.price + other.quantity * other.price
+    def __add__(self, other: Self) -> Any:
+        if type(self) is type(other):
+            return self.quantity * self.price + other.quantity * other.price
+        else:
+            raise TypeError
 
     def __init__(self, name: str, description: str, price: float, quantity: int):
         self.name = name
@@ -35,3 +38,39 @@ class Product:
                     self.__price = p
             else:
                 self.__price = p
+
+
+class Smartphone(Product):
+    def __init__(
+        self,
+        name: str,
+        description: str,
+        price: float,
+        quantity: int,
+        efficiency: float,
+        model: str,
+        memory: int,
+        color: str,
+    ):
+        super().__init__(name, description, price, quantity)
+        self.efficiency = efficiency
+        self.model = model
+        self.memory = memory
+        self.color = color
+
+
+class LawnGrass(Product):
+    def __init__(
+        self,
+        name: str,
+        description: str,
+        price: float,
+        quantity: int,
+        country: str,
+        germination_period: str,
+        color: str,
+    ):
+        super().__init__(name, description, price, quantity)
+        self.germination_period = germination_period
+        self.color = color
+        self.country = country
