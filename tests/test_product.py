@@ -3,17 +3,43 @@ from unittest.mock import patch
 
 import pytest
 
-from src.product import Product
+from src.product import LawnGrass, Product, Smartphone
 
 
 @pytest.fixture
 def product_1() -> Product:
-    return Product("a", "b", 1, 2)
+    return Smartphone("a", "b", 1, 2, 22, "zzz", 3, "red")
 
 
 @pytest.fixture
 def product_2() -> Product:
-    return Product.new_product({"name": "a", "description": "b", "price": 1, "quantity": 2})
+    return LawnGrass("a", "b", 1, 2, "RRR", "zzz", "grr")
+
+
+@pytest.fixture
+def product_3() -> Product:
+    return Smartphone("aAA", "bbb", 12, 22, 222, "zzz2222", 32, "red222")
+
+
+def test_new_product() -> None:
+    prod = Product.new_product({"name": "aaaa", "description": "bbbbb", "price": 10, "quantity": 20})
+    assert str(prod) == "aaaa, 10 руб. Остаток: 20 шт."
+
+
+def test_str(product_1: Product) -> None:
+    assert str(product_1) == "a, 1 руб. Остаток: 2 шт."
+
+
+def test_add(product_1: Product, product_3: Product) -> None:
+    assert product_1 + product_3 == 266
+
+
+def test_wrong_add(product_1: Smartphone, product_2: LawnGrass) -> None:
+    try:
+        product_1 + product_2
+        assert False
+    except TypeError:
+        assert True
 
 
 def test_init(product_1: Product) -> None:
