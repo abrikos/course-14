@@ -1,21 +1,28 @@
+from abc import ABC
 from typing import Any, Self
 
 
 class PrintProduct:
-    ID = 1
-
-    def __init__(self) -> None:
-        self.id = self.ID
-        PrintProduct.ID += 1
-        print(f"[Product created ID: {self.id}]", self)
+    def print_product(self) -> None:
+        print(f"[{self.__class__.__name__} created]:  {self.__dict__}")
 
 
-class BaseProduct:
+class BaseProduct(ABC):
+    @classmethod
+    def new_product(cls, product_dict: dict) -> Self:
+        return cls(product_dict["name"], product_dict["description"], product_dict["price"], product_dict["quantity"])
+
+
+class Product(BaseProduct):
+    """класс Товар"""
+
     def __init__(self, name: str, description: str, price: float, quantity: int):
         self.name = name
         self.description = description
         self.__price = price
         self.quantity = quantity
+        super().__init__()
+        PrintProduct.print_product(self)
 
     def __str__(self) -> str:
         return f"{self.name}, {self.price} руб. Остаток: {self.quantity} шт."
@@ -41,18 +48,6 @@ class BaseProduct:
                     self.__price = p
             else:
                 self.__price = p
-
-
-class Product(BaseProduct, PrintProduct):
-    """класс Товар"""
-
-    def __init__(self, name: str, description: str, price: float, quantity: int):
-        super().__init__(name, description, price, quantity)
-        PrintProduct.__init__(self)
-
-    @classmethod
-    def new_product(cls, product_dict: dict) -> Self:
-        return cls(product_dict["name"], product_dict["description"], product_dict["price"], product_dict["quantity"])
 
 
 class Smartphone(Product):
