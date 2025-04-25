@@ -42,6 +42,15 @@ def test_wrong_add(product_1: Smartphone, product_2: LawnGrass) -> None:
         assert True
 
 
+def test_print_product(capsys: Any) -> None:
+    Product.new_product({"name": "ZZZZ", "description": "bbbbb", "price": 10, "quantity": 20})
+    captured = capsys.readouterr()
+    assert (
+        captured.out
+        == "[Product created]:  {'name': 'ZZZZ', 'description': 'bbbbb', '_Product__price': 10, 'quantity': 20}\n"
+    )
+
+
 def test_init(product_1: Product) -> None:
     assert product_1.name == "a"
     assert product_1.description == "b"
