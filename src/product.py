@@ -3,17 +3,20 @@ from typing import Any, Self
 
 
 class PrintProduct:
+    def __init__(self) -> None:
+        self.print_product()
+
     def print_product(self) -> None:
         print(f"[{self.__class__.__name__} created]:  {self.__dict__}")
 
 
 class BaseProduct(ABC):
     @classmethod
-    def new_product(cls, product_dict: dict) -> Self:
-        return cls(product_dict["name"], product_dict["description"], product_dict["price"], product_dict["quantity"])
+    def new_product(cls, product_dict: dict):
+        pass
 
 
-class Product(BaseProduct):
+class Product(BaseProduct, PrintProduct):
     """класс Товар"""
 
     def __init__(self, name: str, description: str, price: float, quantity: int):
@@ -22,7 +25,6 @@ class Product(BaseProduct):
         self.__price = price
         self.quantity = quantity
         super().__init__()
-        PrintProduct.print_product(self)
 
     def __str__(self) -> str:
         return f"{self.name}, {self.price} руб. Остаток: {self.quantity} шт."
@@ -32,6 +34,10 @@ class Product(BaseProduct):
             return self.quantity * self.price + other.quantity * other.price
         else:
             raise TypeError
+
+    @classmethod
+    def new_product(cls, product_dict: dict) -> Self:
+        return cls(**product_dict)
 
     @property
     def price(self) -> float:

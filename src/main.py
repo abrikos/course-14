@@ -1,12 +1,20 @@
 from src.category import Category
-from src.product import Product, Smartphone
+from src.product import LawnGrass, Product, Smartphone
 
 if __name__ == "__main__":
     product1 = Product("Samsung Galaxy S23 Ultra", "256GB, Серый цвет, 200MP камера", 180000.0, 5)
     product2 = Product("Iphone 15", "512GB, Gray space", 210000.0, 8)
     product3 = Product("Xiaomi Redmi Note 11", "1024GB, Синий", 31000.0, 14)
-    product5 = Product.new_product(
-        {"name": "Xiaomi Redmi Note 11", "description": "1024GB, Синий", "price": 31000.0, "quantity": 14}
+    product5 = LawnGrass.new_product(
+        {
+            "name": "Xiaomi Redmi Note 11",
+            "description": "1024GB, Синий",
+            "price": 31000.0,
+            "quantity": 14,
+            "country": "rr",
+            "germination_period": "22",
+            "color": "red",
+        }
     )
     product4 = Smartphone("aaa", "bbb", 12, 2, 22, "ddd", 3, "r")
 
