@@ -35,11 +35,12 @@ def test_add(product_1: Product, product_3: Product) -> None:
 
 
 def test_wrong_add(product_1: Smartphone, product_2: LawnGrass) -> None:
-    with pytest.raises(TypeError, match='Only same types allowed'):
+    with pytest.raises(TypeError, match="Only same types allowed"):
         product_1 + product_2
 
+
 def test_zero_quantity() -> None:
-    with pytest.raises(ValueError, match='Товар с нулевым количеством не может быть добавлен'):
+    with pytest.raises(ValueError, match="Товар с нулевым количеством не может быть добавлен"):
         Smartphone("aAA", "bbb", 12, 0, 222, "zzz2222", 32, "red222")
 
 
