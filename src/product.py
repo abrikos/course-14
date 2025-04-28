@@ -1,4 +1,4 @@
-from abc import ABC
+from abc import ABC, abstractmethod
 from typing import Any, Self
 
 
@@ -11,8 +11,8 @@ class PrintProduct:
 
 
 class BaseProduct(ABC):
-    @classmethod
-    def new_product(cls, product_dict: dict):
+    @abstractmethod
+    def new_product(self, product_dict: dict):
         pass
 
 
@@ -23,6 +23,8 @@ class Product(BaseProduct, PrintProduct):
         self.name = name
         self.description = description
         self.__price = price
+        if quantity <=0 :
+            raise ValueError('Товар с нулевым количеством не может быть добавлен')
         self.quantity = quantity
         super().__init__()
 
@@ -33,7 +35,7 @@ class Product(BaseProduct, PrintProduct):
         if type(self) is type(other):
             return self.quantity * self.price + other.quantity * other.price
         else:
-            raise TypeError
+            raise TypeError('Only same types allowed')
 
     @classmethod
     def new_product(cls, product_dict: dict) -> Self:

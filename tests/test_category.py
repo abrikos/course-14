@@ -1,6 +1,8 @@
+from typing import Any
+
 import pytest
 
-from src.category import Category
+from src.category import Category, Order, OrderError
 from src.product import Product
 
 
@@ -32,10 +34,15 @@ def category_2() -> Category:
     return category
 
 
+def test_empty_category():
+    cat = Category('aa', 'bb', [])
+    assert cat.average_price == 0
+
+
 def test_cat_2(category_2: Category) -> None:
     assert category_2.name == "a"
     assert category_2.description == "b"
-    assert category_2.category_count == 3
+    assert category_2.category_count == 4
     assert category_2.product_count == 2
 
 
@@ -49,3 +56,39 @@ def test_wrong_add(category_2: Category) -> None:
         assert False
     except TypeError:
         assert True
+
+
+def test_print_info(capsys: Any) -> None:
+    cat = Category("xx", "yy", [])
+    cat.print_info()
+    captured = capsys.readouterr()
+    assert (
+            captured.out
+            == "xx yy\n"
+    )
+
+@pytest.fixture
+def product_1()->Product:
+    return Product("t","w",2,1)
+
+def test_add_product(capsys: Any, product_1:Product) -> None:
+    cat = Category("xx", "yy", [])
+    cat.add_product(product_1)
+    captured = capsys.readouterr()
+    assert (
+            captured.out
+            == ("[Product created]:  {'name': 't', 'description': 'w', '_Product__price': 2, "
+ "'quantity': 1}\n"
+ 'Product added: t, 2 руб. Остаток: 1 шт.\n')
+    )
+
+@pytest.fixture
+def order_1()->Order:
+    return Order(Product("z", "x", 1, 2), 2)
+
+def test_order(order_1:Order):
+    assert str(order_1) == "Order for product: z. 2 шт."
+
+def test_order_zero_quant():
+    with pytest.raises(OrderError, match='Quantity must be greater than zero'):
+        Order(Product("z", "x", 1, 2), 0)
