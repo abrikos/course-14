@@ -1,11 +1,20 @@
+from abc import ABC, abstractmethod
+from typing import Any
+
 from src.product import Product
 
 
-class Category:
+class CategoryOrder(ABC):
+    @abstractmethod
+    def print_info(self) -> None:
+        pass
+
+
+class Category(CategoryOrder):
     """класс Категория"""
 
-    category_count = 0
     product_count = 0
+    category_count = 0
 
     def __str__(self) -> str:
         return f"{self.name}, количество продуктов: {len(self.products)} шт."
@@ -22,9 +31,45 @@ class Category:
         if isinstance(product, Product):
             self.__products.append(product)
             self.product_count += 1
+            print(f"Product added: {product}")
         else:
-            raise TypeError
+            raise TypeError("Only products allowed")
 
     @property
     def products(self) -> list:
         return list(map(lambda x: f"{x.name}, {x.price} руб. Остаток {x.quantity} шт.", self.__products))
+
+    @property
+    def average_price(self) -> float:
+        try:
+            return sum(list(map(lambda x: x.price, self.__products))) / len(self.__products)
+        except ZeroDivisionError:
+            return 0
+
+    def print_info(self) -> None:
+        print(self.name, self.description)
+
+
+class OrderError(Exception):
+    """Order's exception class"""
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        self.message = args[0] if args else "Unknown error"
+
+    def __str__(self) -> str:
+        return self.message
+
+
+class Order(CategoryOrder):
+    def __init__(self, product: Product, count: int) -> None:
+        if count <= 0:
+            raise OrderError("Quantity must be greater than zero")
+        self.product = product
+        self.count = count
+        print(f"Product ordered: {product.name}, {self.count} шт.")
+
+    def __str__(self) -> str:
+        return f"Order for product: {self.product.name}. {self.count} шт."
+
+    def print_info(self) -> None:
+        print(self)
